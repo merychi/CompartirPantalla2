@@ -1,4 +1,5 @@
 import 'package:compartir_pantalla/compartir_pantalla.dart';
+import 'package:compartir_pantalla/senalizacion/server.dart';
 import 'package:compartir_pantalla/senalizacion/socket.dart';
 import 'package:flutter/material.dart';
 
@@ -15,17 +16,19 @@ class _SalaPantallaState extends State<SalaPantalla> {
   dynamic incomingSDPOffer;
   final remoteipClientTextEditingController = TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-    // Escuchar para la solicitud de transmisión
-    ClientManager.instance.socket!.on("solicitarTransmision", (data) {
-      if (mounted) {
-        // set SDP Offer of incoming call
-        setState(() => incomingSDPOffer = data);
-      }
-    });
-  }
+@override
+void initState() {
+  super.initState();
+  // Escuchar para la solicitud de transmisión
+  ClientManager.instance.socket?.on("solicitarTransmision", (data) {
+    print('Datos recibidos en "solicitarTransmision": $data');
+      setState(() {
+        incomingSDPOffer = data;
+        print('incomingSDPOffer actualizado: $incomingSDPOffer');
+      });
+  });
+}
+
 
   // Unirse a la transmisión
   void _joinTransmision({

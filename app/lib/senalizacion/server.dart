@@ -25,13 +25,14 @@ class ServerManager with ChangeNotifier {
         client.on("crearSolicitudTransmision", (data) {
           var ipDestino = data['ipDestino'];
           var sdpOffer = data['sdpOffer'];
-          print(
-              'Server: Solicitud de transmisión creada por $ip para $ipDestino');
+          print("Server: El $sdpOffer es: ");
+          print('Server: Solicitud de transmisión creada por $ip para $ipDestino');
 
           _server?.to(ipDestino).emit("solicitarTransmision", {
             "clientIp": ip,
             "sdpOffer": sdpOffer,
           });
+          print ("server: valor del $sdpOffer");
         });
 
         client.on("respuestaTransmision", (data) {
